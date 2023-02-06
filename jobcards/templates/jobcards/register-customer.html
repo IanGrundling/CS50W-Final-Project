@@ -1,0 +1,38 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - Register Customer
+{% endblock %}
+
+{% block body %}
+    <div class="login-form">
+        <form action="{% url 'register_customer' %}" method="post">
+            {% csrf_token %}
+            <h1>Register Customer</h1>
+            {% if message %}
+            <div class="ml-4">{{ message }}</div>
+            {% endif %}
+            <div class="content">
+                <div class="input-field">
+                    <input type="text" placeholder="Customer Firstname" name="cust_name" autofocus>
+                </div>
+                <div class="input-field">
+                    <input type="text" placeholder="Customer Lastname" name="cust_surname">
+                </div>
+                <div class="input-field">
+                    <input type="number" placeholder="Customer Number" name="cust_number">
+                </div>
+                <div class="input-field">
+                    <input type="email" placeholder="Customer Email" name="cust_email">
+                </div>                
+            </div>            
+            <div class="action">
+                <input type="submit" value="Register Customer" class="a">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'jobcards/javascript/index.js' %}"></script>
+{% endblock %}

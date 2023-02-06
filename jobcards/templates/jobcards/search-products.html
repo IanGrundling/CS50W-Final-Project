@@ -1,0 +1,101 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - View Products
+{% endblock %}
+
+{% block body %}
+    <div class="table-container" id="table-products">
+        <div class="d-flex justify-content-between">
+            <div class="p-2">
+                <h3>Search results for: {{ searched }}</h3>
+            </div>
+            <div class="p-2">
+                <form action="{% url 'search_product' %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="p-2">
+                            <input type="text" class="form-control" placeholder="Search by Manufacturer..." name="searched">
+                        </div>
+                        <div class="p-2">
+                            <input type="submit" value="Search" class="btn btn-outline-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Model</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in page_obj %}
+            <tr>
+                <th scope="row" id="product-id" data-id="{{ i.id }}">{{ i.id }}</th>
+                <td id="table_manufacturer_{{ i.id }}">{{ i.manufacturer }}</td>
+                <td id="table_model_{{ i.id }}">{{ i.model }}</td>
+                <td id="table_price_{{ i.id }}">R {{ i.price }}</td>
+                <td><div class="text-center"><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modal_edit_{{ i.id }}">Edit</button></div></td>
+                <td><div class="text-center"><button type="button" class="btn btn-outline-primary add-product" data-id="{{ i.id }}" data-action="add">Add to Jobcard</button></div></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% for n in page_obj %}
+            <div class="modal fade" id="modal_edit_{{ n.id }}" tabindex="-1" role="dialog" aria-labelledby="edit_product_{{ n.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-4">
+                            <label for="manufacturer">Manufacturer</label>
+                            <input class="form-control" id="product_manufacturer_{{ n.id }}" type="text" value="{{ n.manufacturer }}" name="manufacturer" autofocus>
+                        </div>
+                        <div class="mb-4">
+                            <label for="model">Model</label>
+                            <input class="form-control" id="product_model_{{ n.id }}" type="text" value="{{ n.model }}" name="model">
+                        </div>  
+                        <div class="mb-4">
+                            <label for="price">Price</label>
+                            <input class="form-control" id="product_price_{{ n.id }}" type="number" value="{{ n.price }}" name="price">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary save-changes" data-id="{{ n.id }}">Save changes</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination d-flex justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'jobcards/javascript/products.js' %}"></script>
+    <script src="{% static 'jobcards/javascript/add-products.js' %}"></script>
+{% endblock %}

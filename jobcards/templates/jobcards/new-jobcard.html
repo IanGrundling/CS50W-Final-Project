@@ -1,0 +1,53 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - New Jobcard
+{% endblock %}
+
+{% block body %}
+    <div class="jobcard-form">
+        <form action="{% url 'new_jobcard' %}" method="post">
+            {% csrf_token %}
+            <h1>New Jobcard</h1>
+            {% if message %}
+                <div class="ml-4">{{ message }}</div>
+            {% endif %}
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-5">
+                                <label for="customer" class="labels">Select a Customer:</label>
+                                <select name="customer" id="customer" class="form-control">
+                                    {% for i in customer %}
+                                        <option value="{{ i.cust_name }}">{{ i.cust_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <input type="text" placeholder="Description of work" name="description-of-work">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-5">
+                                    <label for="product" class="labels">Select Product:</label>
+                                    <select name="product" id="product" class="form-control">
+                                        {% for i in product %}
+                                            <option value="{{ i.manufacturer }}" class="manufacture-filter" data-id="{{ i.id }}">{{ i.manufacturer }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="action">
+                <input type="submit" value="Submit Jobcard" class="a">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'jobcards/javascript/new_jobcard.js' %}"></script>
+{% endblock %}

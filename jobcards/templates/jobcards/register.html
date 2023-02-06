@@ -1,0 +1,39 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - Register
+{% endblock %}
+
+{% block body %}
+    <div class="login-form">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <h1>Register</h1>
+            {% if message %}
+            <div class="ml-4">{{ message }}</div>
+            {% endif %}
+            <div class="content">
+                <div class="input-field">
+                    <input type="text" placeholder="Username" name="username" autofocus>
+                </div>
+                <div class="input-field">
+                <input type="email" placeholder="Email" name="email">
+                </div>
+                <div class="input-field">
+                <input type="password" placeholder="Password" name="password">
+                </div>
+                <div class="input-field">
+                    <input type="password" name="confirmation" placeholder="Confirm Password">
+                </div>
+                <a href="{% url 'login' %}" class="link">Already have a account? Log In here.</a>
+            </div>            
+            <div class="action">
+                <input type="submit" value="Register" class="a">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'jobcards/javascript/index.js' %}"></script>
+{% endblock %}

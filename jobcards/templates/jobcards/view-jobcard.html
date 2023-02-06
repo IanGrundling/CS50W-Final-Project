@@ -1,0 +1,80 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - View Jobcard
+{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-xs-12">
+    		<div class="invoice-title">
+    			<h2>Jobcard Nr. {{ jobcard.jobcard_id }}</h2>
+    		</div>
+    		<hr>
+    		<div class="row">
+    			<div class="col-xs-6 ml-2">
+    				<address>
+    				<strong>Customer:</strong><br>
+    					{{ jobcard.customer.cust_name }}<br>
+    					{{ jobcard.customer.cust_surname }}<br>
+    					{{ jobcard.customer.cust_number }}<br>
+    					{{ jobcard.customer.cust_email }}
+    				</address>
+                    <div class="mt-2 mb-3">
+                        <strong>Description:</strong><br>
+                        {{ jobcard.description }}
+                    </div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				<h3 class="panel-title"><strong>Products</strong></h3>
+    			</div>
+    			<div class="panel-body">
+    				<div class="table-responsive">
+    					<table class="table table-condensed">
+    						<thead>
+                                <tr>
+        							<td><strong>Manufacturer</strong></td>
+        							<td><strong>Model</strong></td>
+        							<td><strong>Quantity</strong></td>
+                                    <td><strong>Price</strong></td>
+        							<td><strong>Total</strong></td>
+                                </tr>
+    						</thead>
+    						<tbody>
+                                {% for i in jobcard_item %}
+                                <tr>
+    								<td class="no-line">{{ i.product.manufacturer }}</td>
+    								<td class="no-line">{{ i.product.model }}</td>
+    								<td class="no-line">{{ i.quantity }}</td>
+                                    <td class="no-line">R {{ i.product.price }}</td>
+    								<td class="no-line">R {{ i.get_total }}</td>
+    							</tr>
+                                {% endfor %}
+    							<tr>
+    								<td></td>
+    							    <td></td>
+                                    <td></td>
+    								<td><strong>Total</strong></td>
+    								<td>R {{ jobcard.get_item_total }}</td>
+    							</tr>
+    						</tbody>
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div> 
+{% endblock %}
+{% block script %}
+    
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "jobcards/layout.html" %}
+{% load static %}
+
+{% block title %}
+Jobcards - Login
+{% endblock %}
+
+{% block body %}
+    <div class="login-form">
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <h1>Login</h1>
+            {% if message %}
+            <div class="ml-4">{{ message }}</div>
+            {% endif %}
+            <div class="content">
+                <div class="input-field">
+                    <input autofocus type="text" name="username" placeholder="Username">
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" placeholder="Password" autocomplete="off">
+                </div>
+                <a href="{% url 'register' %}" class="link">Don't have a account? Register Here</a>
+            </div>
+            <div class="action">
+                <input type="submit" value="Sign In" class="a">
+            </div>
+            </form>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'jobcards/javascript/index.js' %}"></script>
+{% endblock %}
